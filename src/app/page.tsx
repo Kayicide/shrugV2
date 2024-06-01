@@ -7,7 +7,7 @@ export const dynamic = "auto";
 
 async function AudioFiles() {
   const audioFiles = await getMyAudioFiles()
-  
+
   return (
     <div>
       <UploadButton endpoint="audioUploader"></UploadButton>
@@ -19,8 +19,6 @@ async function AudioFiles() {
 }
 
 export default async function HomePage() {
-  const audioFiles = await getMyAudioFiles()
-
   return (
     <main className="flex min-h-screen flex-col items-center justify-center ">
       <div className="container flex flex-col items-center justify-center">
