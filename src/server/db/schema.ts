@@ -4,6 +4,7 @@
 import { sql } from "drizzle-orm";
 import {
   index,
+  integer,
   pgTableCreator,
   serial,
   timestamp,
@@ -27,13 +28,32 @@ export const audio = createTable(
     url: varchar("url", { length: 1024 }),
 
     userId: varchar("userId", { length: 256 }).notNull(),
+    entryId: integer("entryId").references(() => entry.id),
+
 
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
       .notNull(),
     updatedAt: timestamp("updatedAt", { withTimezone: true }),
   },
-  (example) => ({
-    nameIndex: index("name_idx").on(example.name),
+  (table) => ({
+    nameIndex: index("name_idx").on(table.name),
+  })
+);
+
+export const entry = createTable(
+  "entry",
+  {
+    id: serial("id").primaryKey(),
+    name: varchar("name", { length: 256 }).notNull(),
+    userId: varchar("userId", { length: 256 }).notNull(),
+
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updatedAt", { withTimezone: true }),
+  },
+  (table) => ({
+    userIdIndex: index("userId_idx").on(table.userId),
   })
 );
